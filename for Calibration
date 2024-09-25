@@ -1,0 +1,80 @@
+String msg = "Need to run? (y/n) "; //enter y if yes, enter n if no 
+String status;
+
+int delayTime = 10000;
+int photoResistorPin = A0;
+int voltageRessistor;
+
+int LEDred[] = {13,12,11};
+int LEDgreen[] = {10,9,8};
+int LEDblue[] = {7,6,5};
+
+
+void setup()
+{
+  for (int a=0; a<3; a++){
+  pinMode(LEDred[a], OUTPUT);} //RED
+  for (int b=0; b<3; b++){
+  pinMode(LEDgreen[b], OUTPUT);} //GREEN
+  for (int c=0; c<3; c++){
+  pinMode(LEDblue[c], OUTPUT);} //BLUE
+  
+  Serial.begin(9600); 
+  pinMode(photoResistorPin , INPUT); //Photoressistor
+}
+
+void loop()
+{
+  
+  Serial.println(msg);
+  while (Serial.available()==0){
+    
+  }
+  status= Serial.readString();
+  if (status == "y"){
+  
+    for (int r=0; r<3; r++){
+    digitalWrite(LEDred[r], HIGH);
+    }
+    delay(delayTime); // Wait for 10000 millisecond(s) LED ON
+
+    voltageRessistor = analogRead(photoResistorPin);
+    Serial.print("RED - ");
+    Serial.println(voltageRessistor);// Voltage read when RED LED on
+
+    for (int r=0; r<3; r++){
+    digitalWrite(LEDred[r], LOW);
+    }
+    
+    for (int g=0; g<3; g++){
+    digitalWrite(LEDgreen[g], HIGH);
+    }
+    delay(delayTime); // Wait for 10000 millisecond(s) LED ON
+
+    voltageRessistor = analogRead(photoResistorPin);  
+    Serial.print("GREEN - ");
+    Serial.println(voltageRessistor);// Voltage read when GREEN LED on
+
+    for (int g=0; g<3; g++){
+    digitalWrite(LEDgreen[g], LOW);
+    }
+
+    for (int b=0; b<3; b++){
+    digitalWrite(LEDblue[b], HIGH);
+    }
+    delay(delayTime); // Wait for 10000 millisecond(s) LED ON
+
+    voltageRessistor = analogRead(photoResistorPin);  
+    Serial.print("BLUE - ");
+    Serial.println(voltageRessistor);// Voltage read when BLUE LED on
+
+    for (int b=0; b<3; b++){
+    digitalWrite(LEDblue[b], LOW);
+    }
+
+  }
+  
+  
+
+}
+
